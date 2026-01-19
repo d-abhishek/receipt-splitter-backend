@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: receipt-splitter-postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: receipt_splitter
+      POSTGRES_USER: rs_user
+      POSTGRES_PASSWORD: rs_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8081:80"  # Access at http://localhost:8082
+
+volumes:
+  postgres_data:
