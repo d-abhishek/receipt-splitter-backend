@@ -1,4 +1,4 @@
-package com.abhishek.receiptsplitterbackend;
+package com.abhishek.receiptsplitterbackend.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
