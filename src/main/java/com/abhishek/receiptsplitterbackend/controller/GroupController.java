@@ -87,10 +87,31 @@ public class GroupController {
      * @param memberIds List of user IDs to add
      * @return ResponseEntity containing the updated group
      */
+
     @PostMapping("/{groupId}/add-members")
     public ResponseEntity<Group> addMembersToGroup(@PathVariable UUID groupId, @RequestBody List<UUID> memberIds){
         try{
             Group updatedGroup = groupService.addMembersToGroup(groupId, memberIds);
+            return ResponseEntity.status(HttpStatus.OK).body(updatedGroup);
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Delete members from an existing group.
+     *
+     * @param groupId The UUID of the group
+     * @param memberIds List of user IDs to add
+     * @return ResponseEntity containing the updated group
+     */
+
+    @PostMapping("/{groupId}/delete-members")
+    public ResponseEntity<Group> deleteMembersFromGroup(@PathVariable UUID groupId, @RequestBody List<UUID> memberIds){
+        try{
+            Group updatedGroup = groupService.deleteMembersFromGroup(groupId, memberIds);
             return ResponseEntity.status(HttpStatus.OK).body(updatedGroup);
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().build();

@@ -91,6 +91,29 @@ public class GroupService {
     }
 
     /**
+     * Delete members from an existing group.
+     *
+     * @param groupId The UUID of the group
+     * @param memberIds List of user IDs to delete
+     * @return Updated Group entity
+     */
+
+    public Group deleteMembersFromGroup(UUID groupId, List<UUID> memberIds) {
+        Group group = getGroupById(groupId);
+
+        List<User> members = userRepository.findAllById(memberIds);
+
+        if (members.isEmpty()) {
+            throw new IllegalArgumentException("No valid users found for the provided member IDs");
+        }
+
+        members.forEach(group.getMembers()::remove);
+
+        return groupRepository.save(group);
+    }
+
+
+    /**
      * Deletes group by ID.
      *
      * @param groupID The UUID of the group
