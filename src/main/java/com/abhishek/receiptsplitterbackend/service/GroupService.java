@@ -64,6 +64,12 @@ public class GroupService {
         return groupRepository.findAll().stream().map(Group::getName).toList();
     }
 
+    /**
+     * Retrieves a single group by ID
+     * @param groupId The UUID of the group
+     * @returns single group details
+     */
+
     public Group getGroupById(UUID groupId) {
         return groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("Group not found with ID: " + groupId));
     }
