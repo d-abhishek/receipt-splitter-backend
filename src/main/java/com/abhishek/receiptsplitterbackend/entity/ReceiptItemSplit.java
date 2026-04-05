@@ -1,6 +1,8 @@
 package com.abhishek.receiptsplitterbackend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -11,6 +13,8 @@ import java.util.UUID;
  * applying rules or manual modifications.
  */
 
+@Setter
+@Getter
 @Entity
 @Table(name = "receipt_item_splits")
 public class ReceiptItemSplit {
@@ -29,46 +33,4 @@ public class ReceiptItemSplit {
     private BigDecimal amountOwed;
 
     private Boolean paid = false;
-
-    // Getters & Setters
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public ReceiptItem getItem() {
-        return item;
-    }
-
-    public void setItem(ReceiptItem item) {
-        this.item = item;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public BigDecimal getAmountOwed() {
-        return amountOwed;
-    }
-
-    public void setAmountOwed(BigDecimal amountOwed) {
-        this.amountOwed = amountOwed;
-    }
-
-    public Boolean isPaid() {
-        return paid;
-    }
-
-    public void setPaid(Boolean paid) {
-        this.paid = paid;
-    }
 }

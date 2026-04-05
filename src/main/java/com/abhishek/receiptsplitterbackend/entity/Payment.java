@@ -1,6 +1,8 @@
 package com.abhishek.receiptsplitterbackend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,10 +13,13 @@ import java.util.UUID;
  * Used to track settlements and outstanding balances.
  */
 
+@Setter
+@Getter
 @Entity
 @Table(name = "payments")
 public class Payment {
 
+    // Getters & Setters
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -33,42 +38,5 @@ public class Payment {
     @PrePersist
     void onPay() {
         paidAt = LocalDateTime.now();
-    }
-
-    // Getters & Setters
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Receipt getReceipt() {
-        return receipt;
-    }
-
-    public void setReceipt(Receipt receipt) {
-        this.receipt = receipt;
-    }
-
-    public BigDecimal getAmountPaid() {
-        return amountPaid;
-    }
-
-    public void setAmountPaid(BigDecimal amountPaid) {
-        this.amountPaid = amountPaid;
-    }
-
-    public LocalDateTime getPaidAt() {
-        return paidAt;
     }
 }

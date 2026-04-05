@@ -1,6 +1,8 @@
 package com.abhishek.receiptsplitterbackend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,6 +16,8 @@ import java.util.UUID;
  * or be ad-hoc (manual splitting).
  */
 
+@Setter
+@Getter
 @Entity
 @Table(name = "receipts")
 public class Receipt {
@@ -35,6 +39,9 @@ public class Receipt {
     @ManyToOne(optional = false)
     private User uploadedBy;
 
+    @ManyToOne(optional = false)
+    private User paidBy;
+
     @ManyToOne
     private Group group;
 
@@ -50,87 +57,5 @@ public class Receipt {
     @PrePersist
     void onCreate() {
         this.createdAt = LocalDateTime.now();
-    }
-
-    // Getters & Setters
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getStoreName() {
-        return storeName;
-    }
-
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public User getUploadedBy() {
-        return uploadedBy;
-    }
-
-    public void setUploadedBy(User uploadedBy) {
-        this.uploadedBy = uploadedBy;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
-    public LocalDate getReceiptDate() {
-        return receiptDate;
-    }
-
-    public void setReceiptDate(LocalDate receiptDate) {
-        this.receiptDate = receiptDate;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public List<ReceiptItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ReceiptItem> items) {
-        this.items = items;
     }
 }

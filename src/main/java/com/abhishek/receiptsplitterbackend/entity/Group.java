@@ -1,6 +1,8 @@
 package com.abhishek.receiptsplitterbackend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -12,6 +14,8 @@ import java.util.UUID;
  * across multiple receipts.
  */
 
+@Setter
+@Getter
 @Entity
 @Table(name = "groups")
 public class Group {
@@ -39,43 +43,5 @@ public class Group {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
-    }
-
-    // Getters and Setters
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public Set<User> getMembers() {
-        return members;
-    }
-
-    public void setMembers(Set<User> members) {
-        this.members = members;
-    }
-
-    public Set<GroupItemSplitRule> getRules() {
-        return rules;
-    }
-
-    public void setRules(Set<GroupItemSplitRule> rules) {
-        this.rules = rules;
     }
 }
