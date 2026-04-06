@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-public class CreateGroupRequest {
+public class GroupRequest {
 
     private String groupName;
     private List<UUID> memberIds;

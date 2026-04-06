@@ -1,6 +1,6 @@
 package com.abhishek.receiptsplitterbackend.controller;
 
-import com.abhishek.receiptsplitterbackend.Dto.CreateGroupRequest;
+import com.abhishek.receiptsplitterbackend.Dto.GroupRequest;
 import com.abhishek.receiptsplitterbackend.entity.Group;
 import com.abhishek.receiptsplitterbackend.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +25,14 @@ public class GroupController {
     /**
      * Create a new group with members.
      *
-     * @param createGroupRequest Request body with groupName and memberIds
+     * @param groupRequest Request body with groupName and memberIds
      * @return ResponseEntity containing the created Group
      */
 
     @PostMapping("/create")
-    public ResponseEntity<String> createGroup(@RequestBody CreateGroupRequest createGroupRequest) {
+    public ResponseEntity<String> createGroup(@RequestBody GroupRequest groupRequest) {
         try {
-            Group createdGroup = groupService.createGroup(createGroupRequest);
+            Group createdGroup = groupService.createGroup(groupRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body("Group created successfully with ID: " + createdGroup.getId());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();

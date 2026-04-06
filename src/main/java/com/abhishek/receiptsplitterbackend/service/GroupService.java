@@ -1,6 +1,6 @@
 package com.abhishek.receiptsplitterbackend.service;
 
-import com.abhishek.receiptsplitterbackend.Dto.CreateGroupRequest;
+import com.abhishek.receiptsplitterbackend.Dto.GroupRequest;
 import com.abhishek.receiptsplitterbackend.entity.Group;
 import com.abhishek.receiptsplitterbackend.entity.User;
 import com.abhishek.receiptsplitterbackend.repository.GroupRepository;
@@ -28,19 +28,19 @@ public class GroupService {
     /**
      * Creates a new group with the specified name and members.
      *
-     * @param createGroupRequest CreateGroupRequest containing groupName and memberIds
+     * @param groupRequest CreateGroupRequest containing groupName and memberIds
      * @return The created Group entity with members
      * @throws IllegalArgumentException if group name is empty or invalid
      */
 
-    public Group createGroup(CreateGroupRequest createGroupRequest) {
+    public Group createGroup(GroupRequest groupRequest) {
 
         // Validate input
-        if (createGroupRequest.getGroupName() == null || createGroupRequest.getGroupName().trim().isEmpty()) {
+        if (groupRequest.getGroupName() == null || groupRequest.getGroupName().trim().isEmpty()) {
             throw new IllegalArgumentException("Group name cannot be empty");
         }
 
-        List<UUID> memberIds = createGroupRequest.getMemberIds();
+        List<UUID> memberIds = groupRequest.getMemberIds();
         List<User> members = userRepository.findAllById(memberIds);
 
         if (members.isEmpty() && !memberIds.isEmpty()) {
@@ -48,7 +48,7 @@ public class GroupService {
         }
 
         Group group = new Group();
-        group.setName(createGroupRequest.getGroupName().trim());
+        group.setName(groupRequest.getGroupName().trim());
         group.setMembers(new HashSet<>(members));
 
         return groupRepository.save(group);
