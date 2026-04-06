@@ -44,4 +44,7 @@ public class Group {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
+
+    @PreUpdate
+    protected void onUpdate() {}
 }
