@@ -35,7 +35,7 @@ public class ReceiptItem {
     private BigDecimal unitPrice;
 
     @Column(nullable = false)
-    private BigDecimal totalPrice;
+    private BigDecimal finalPrice;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReceiptItemSplit> splits;
