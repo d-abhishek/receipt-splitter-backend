@@ -78,6 +78,42 @@ public class ReceiptService {
         receipt.setReceiptDate(receiptRequest.getReceiptDate());
         receipt.setSplitType(receiptRequest.getSplitType());
 
+        if (Objects.equals(receiptRequest.getSplitType(), "RECEIPT_LEVEL")) {
+
+            BigDecimal totalPercentage = BigDecimal.ZERO;
+            List<ReceiptSplit> receiptSplits = new ArrayList<>();
+
+            for (ReceiptRequest.Split splitRequest : receiptRequest.getSplits()) {
+                if (splitRequest.getUserId() == null || splitRequest.getPercentage() == null) {
+                    throw new IllegalArgumentException("Split userId and percentage are required");
+                }
+
+                User splitUser = userRepository.findById(splitRequest.getUserId())
+                        .orElseThrow(() -> new IllegalArgumentException(
+                                "Split user not found: " + splitRequest.getUserId()));
+
+                BigDecimal amountOwed = receiptRequest.getAmount()
+                        .multiply(splitRequest.getPercentage())
+                        .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+
+                ReceiptSplit receiptSplit = new ReceiptSplit();
+
+                receiptSplit.setReceipt(receipt);
+                receiptSplit.setUser(splitUser);
+                receiptSplit.setAmountOwed(amountOwed);
+
+                receiptSplits.add(receiptSplit);
+
+                totalPercentage = totalPercentage.add(splitRequest.getPercentage());
+            }
+
+            if (totalPercentage.compareTo(BigDecimal.valueOf(100)) != 0) {
+                throw new IllegalArgumentException("Item split percentages must total 100 for receipt: " + receiptRequest.getStoreName() + " expense on " + receiptRequest.getStoreName());
+            }
+
+            receipt.setSplits(receiptSplits);
+        }
+
         // Create ReceiptItems from request
         List<ReceiptItem> items = new ArrayList<>();
 
@@ -126,42 +162,6 @@ public class ReceiptService {
                     }
 
                     receiptItem.setSplits(itemSplits);
-                }
-
-                if (Objects.equals(receiptRequest.getSplitType(), "RECEIPT_LEVEL")) {
-
-                    BigDecimal totalPercentage = BigDecimal.ZERO;
-                    List<ReceiptSplit> receiptSplits = new ArrayList<>();
-
-                    for (ReceiptRequest.Split splitRequest : receiptRequest.getSplits()) {
-                        if (splitRequest.getUserId() == null || splitRequest.getPercentage() == null) {
-                            throw new IllegalArgumentException("Split userId and percentage are required");
-                        }
-
-                        User splitUser = userRepository.findById(splitRequest.getUserId())
-                                .orElseThrow(() -> new IllegalArgumentException(
-                                        "Split user not found: " + splitRequest.getUserId()));
-
-                        BigDecimal amountOwed = receiptRequest.getAmount()
-                                .multiply(splitRequest.getPercentage())
-                                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-
-                        ReceiptSplit receiptSplit = new ReceiptSplit();
-
-                        receiptSplit.setReceipt(receipt);
-                        receiptSplit.setUser(splitUser);
-                        receiptSplit.setAmountOwed(amountOwed);
-
-                        receiptSplits.add(receiptSplit);
-
-                        totalPercentage = totalPercentage.add(splitRequest.getPercentage());
-                    }
-
-                    if (totalPercentage.compareTo(BigDecimal.valueOf(100)) != 0) {
-                        throw new IllegalArgumentException("Item split percentages must total 100 for receipt: " + receiptRequest.getStoreName() + " expense on " + receiptRequest.getStoreName());
-                    }
-
-                    receipt.setSplits(receiptSplits);
                 }
 
                 items.add(receiptItem);
@@ -254,26 +254,120 @@ public class ReceiptService {
             receipt.setGroup(group);
         }
 
+        if (receiptRequest.getSplitType() != null) {
+            if (receiptRequest.getSplitType().equals("RECEIPT_LEVEL") && receipt.getSplitType().equals("ITEM_LEVEL")) {
+                // Clear item-level splits
+                for (ReceiptItem item : receipt.getItems()) {
+                    item.getSplits().clear();
+                }
+                receipt.getSplits().clear();
+
+            } else if (receiptRequest.getSplitType().equals("ITEM_LEVEL") && receipt.getSplitType().equals("RECEIPT_LEVEL")) {
+                // Clear receipt-level splits
+                receipt.getSplits().clear();
+            }
+
+            receipt.setSplitType(receiptRequest.getSplitType());
+
+            if (Objects.equals(receiptRequest.getSplitType(), "RECEIPT_LEVEL")) {
+
+                for (ReceiptItem item : receipt.getItems()) {
+                    item.getSplits().clear();
+                }
+
+                List<ReceiptSplit> managedSplits = receipt.getSplits();
+                managedSplits.clear(); // orphanRemoval deletes old rows
+
+                BigDecimal totalPercentage = BigDecimal.ZERO;
+
+                for (ReceiptRequest.Split splitRequest : receiptRequest.getSplits()) {
+                    if (splitRequest.getUserId() == null || splitRequest.getPercentage() == null) {
+                        throw new IllegalArgumentException("Split userId and percentage are required");
+                    }
+
+                    User splitUser = userRepository.findById(splitRequest.getUserId())
+                            .orElseThrow(() -> new IllegalArgumentException(
+                                    "Split user not found: " + splitRequest.getUserId()));
+
+                    BigDecimal amountOwed = receiptRequest.getAmount()
+                            .multiply(splitRequest.getPercentage())
+                            .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+
+                    ReceiptSplit receiptSplit = new ReceiptSplit();
+
+                    receiptSplit.setReceipt(receipt);
+                    receiptSplit.setUser(splitUser);
+                    receiptSplit.setAmountOwed(amountOwed);
+
+                    managedSplits.add(receiptSplit);
+
+                    totalPercentage = totalPercentage.add(splitRequest.getPercentage());
+                }
+
+                if (totalPercentage.compareTo(BigDecimal.valueOf(100)) != 0) {
+                    throw new IllegalArgumentException("Item split percentages must total 100 for receipt: " + receiptRequest.getStoreName() + " expense on " + receiptRequest.getStoreName());
+                }
+            }
+
+        }
+
         // Replace items
         if (receiptRequest.getReceiptItems() != null && !receiptRequest.getReceiptItems().isEmpty()) {
-            List<ReceiptItem> newItems = new ArrayList<>();
+            List<ReceiptItem> receiptItems = new ArrayList<>();
             List<ReceiptItem> managedItems = receipt.getItems();
 
-            for (ReceiptRequest.ReceiptItemRequest itemRequest : receiptRequest.getReceiptItems()) {
-                ReceiptItem newItem = new ReceiptItem();
-                newItem.setName(itemRequest.getName());
-                newItem.setQuantity(itemRequest.getQuantity());
-                newItem.setUnitPrice(itemRequest.getUnitPrice());
-                newItem.setFinalPrice(itemRequest.getFinalPrice());
-                newItem.setReceipt(receipt); // Link to parent
-                newItems.add(newItem);
+            for (ReceiptRequest.ReceiptItemRequest receiptItemRequest : receiptRequest.getReceiptItems()) {
+                ReceiptItem receiptItem = new ReceiptItem();
+                receiptItem.setName(receiptItemRequest.getName());
+                receiptItem.setQuantity(receiptItemRequest.getQuantity());
+                receiptItem.setUnitPrice(receiptItemRequest.getUnitPrice());
+                receiptItem.setFinalPrice(receiptItemRequest.getFinalPrice());
+                receiptItem.setReceipt(receipt); // Link to parent
+
+                if (Objects.equals(receiptRequest.getSplitType(), "ITEM_LEVEL")) {
+
+                    BigDecimal totalPercentage = BigDecimal.ZERO;
+                    List<ReceiptItemSplit> itemSplits = new ArrayList<>();
+
+                    for (ReceiptRequest.Split splitRequest : receiptItemRequest.getSplits()) {
+                        if (splitRequest.getUserId() == null || splitRequest.getPercentage() == null) {
+                            throw new IllegalArgumentException("Split userId and percentage are required");
+                        }
+
+                        User splitUser = userRepository.findById(splitRequest.getUserId())
+                                .orElseThrow(() -> new IllegalArgumentException(
+                                        "Split user not found: " + splitRequest.getUserId()));
+
+                        BigDecimal amountOwed = receiptItemRequest.getFinalPrice()
+                                .multiply(splitRequest.getPercentage())
+                                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+
+                        ReceiptItemSplit receiptItemSplit = new ReceiptItemSplit();
+
+                        receiptItemSplit.setItem(receiptItem);
+                        receiptItemSplit.setUser(splitUser);
+                        receiptItemSplit.setAmountOwed(amountOwed);
+
+                        itemSplits.add(receiptItemSplit);
+
+                        totalPercentage = totalPercentage.add(splitRequest.getPercentage());
+                    }
+
+                    if (totalPercentage.compareTo(BigDecimal.valueOf(100)) != 0) {
+                        throw new IllegalArgumentException("Item split percentages must total 100 for item: " + receiptItemRequest.getName());
+                    }
+
+                    receiptItem.setSplits(itemSplits);
+                }
+
+                receiptItems.add(receiptItem);
             }
 
             // Clear old items (orphanRemoval will delete from DB)
             managedItems.clear();
 
             // Add new items
-            managedItems.addAll(newItems);
+            managedItems.addAll(receiptItems);
         }
 
         return receiptRepository.save(receipt);
