@@ -184,7 +184,7 @@
 							"variable": [
 								{
 									"key": "groupId",
-									"value": "7dc7c647-39af-4c29-b393-9ed4cb366d3e"
+									"value": "9e9e88c6-ce96-4d95-a356-58ea96e0d337"
 								}
 							]
 						}
@@ -280,7 +280,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"description\": \"Weekly grocery shopping\",\r\n  \"storeName\": \"Lidl\",\r\n  \"amount\": 25.49,\r\n  \"currency\": \"EUR\",\r\n  \"paidBy\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\",\r\n  \"groupId\": \"9e9e88c6-ce96-4d95-a356-58ea96e0d337\",\r\n  \"receiptDate\": \"2026-04-06\",\r\n  \"receiptItems\": [\r\n    {\r\n      \"name\": \"Milk\",\r\n      \"quantity\": 2,\r\n      \"unitPrice\": 3.50,\r\n      \"finalPrice\": 7.00\r\n    },\r\n    {\r\n      \"name\": \"Bread\",\r\n      \"quantity\": 1,\r\n      \"unitPrice\": 2.50,\r\n      \"finalPrice\": 2.50\r\n    },\r\n    {\r\n      \"name\": \"Eggs\",\r\n      \"quantity\": 1,\r\n      \"unitPrice\": 4.99,\r\n      \"finalPrice\": 4.99\r\n    },\r\n    {\r\n      \"name\": \"Butter\",\r\n      \"quantity\": 2,\r\n      \"unitPrice\": 5.50,\r\n      \"finalPrice\": 11.00\r\n    }\r\n  ]\r\n}\r\n",
+							"raw": "{\r\n  \"description\": \"Weekly grocery shopping\",\r\n  \"storeName\": \"Lidl\",\r\n  \"amount\": 25.49,\r\n  \"currency\": \"EUR\",\r\n  \"paidBy\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\",\r\n  \"groupId\": \"9e9e88c6-ce96-4d95-a356-58ea96e0d337\",\r\n  \"splitType\": \"RECEIPT_LEVEL\",\r\n  \"receiptDate\": \"2026-04-06\",\r\n  \"splits\": [\r\n        { \"userId\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\", \"percentage\": 30 },\r\n        { \"userId\": \"e7016b39-6a7a-4601-b921-6f840bd8b734\", \"percentage\": 40 },\r\n        { \"userId\": \"f51c856c-a872-4ac7-ad47-067b129b9213\", \"percentage\": 30 }\r\n      ],\r\n  \"receiptItems\": [\r\n    {\r\n      \"name\": \"Milk\",\r\n      \"quantity\": 2,\r\n      \"unitPrice\": 3.50,\r\n      \"finalPrice\": 7.00,\r\n      \"splits\": [\r\n        { \"userId\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\", \"percentage\": 30 },\r\n        { \"userId\": \"e7016b39-6a7a-4601-b921-6f840bd8b734\", \"percentage\": 40 },\r\n        { \"userId\": \"f51c856c-a872-4ac7-ad47-067b129b9213\", \"percentage\": 30 }\r\n      ]\r\n    },\r\n    {\r\n      \"name\": \"Bread\",\r\n      \"quantity\": 1,\r\n      \"unitPrice\": 2.50,\r\n      \"finalPrice\": 2.50,\r\n      \"splits\": [\r\n        { \"userId\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\", \"percentage\": 30 },\r\n        { \"userId\": \"e7016b39-6a7a-4601-b921-6f840bd8b734\", \"percentage\": 40 },\r\n        { \"userId\": \"f51c856c-a872-4ac7-ad47-067b129b9213\", \"percentage\": 30 }\r\n      ]\r\n    },\r\n    {\r\n      \"name\": \"Eggs\",\r\n      \"quantity\": 1,\r\n      \"unitPrice\": 4.99,\r\n      \"finalPrice\": 4.99,\r\n      \"splits\": [\r\n        { \"userId\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\", \"percentage\": 30 },\r\n        { \"userId\": \"e7016b39-6a7a-4601-b921-6f840bd8b734\", \"percentage\": 40 },\r\n        { \"userId\": \"f51c856c-a872-4ac7-ad47-067b129b9213\", \"percentage\": 30 }\r\n      ]\r\n    },\r\n    {\r\n      \"name\": \"Butter\",\r\n      \"quantity\": 2,\r\n      \"unitPrice\": 5.50,\r\n      \"finalPrice\": 11.00,\r\n      \"splits\": [\r\n        { \"userId\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\", \"percentage\": 30 },\r\n        { \"userId\": \"e7016b39-6a7a-4601-b921-6f840bd8b734\", \"percentage\": 40 },\r\n        { \"userId\": \"f51c856c-a872-4ac7-ad47-067b129b9213\", \"percentage\": 30 }\r\n      ]\r\n    }\r\n  ]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -346,7 +346,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"description\": \"Updated: Weekly grocery shopping + extra items\",\r\n  \"storeName\": \"Lidl\",\r\n  \"amount\": 14.49,\r\n  \"currency\": \"EUR\",\r\n  \"paidBy\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\",\r\n  \"groupId\": \"9e9e88c6-ce96-4d95-a356-58ea96e0d337\",\r\n  \"receiptDate\": \"2026-04-07\",\r\n  \"receiptItems\": [\r\n    {\r\n      \"name\": \"Milk (2L)\",\r\n      \"quantity\": 1,\r\n      \"unitPrice\": 3.99,\r\n      \"finalPrice\": 3.99\r\n    },\r\n    {\r\n      \"name\": \"Bread (Whole Wheat)\",\r\n      \"quantity\": 2,\r\n      \"unitPrice\": 2.50,\r\n      \"finalPrice\": 5.00\r\n    },\r\n    {\r\n      \"name\": \"Cheese\",\r\n      \"quantity\": 1,\r\n      \"unitPrice\": 6.50,\r\n      \"finalPrice\": 6.50\r\n    }\r\n  ]\r\n}\r\n",
+							"raw": "{\r\n  \"description\": \"Weekly grocery shopping\",\r\n  \"storeName\": \"Edeka\",\r\n  \"amount\": 25.49,\r\n  \"currency\": \"EUR\",\r\n  \"paidBy\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\",\r\n  \"groupId\": \"9e9e88c6-ce96-4d95-a356-58ea96e0d337\",\r\n  \"splitType\": \"ITEM_LEVEL\",\r\n  \"receiptDate\": \"2026-04-06\",\r\n  \"splits\": [\r\n        { \"userId\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\", \"percentage\": 50 },\r\n        { \"userId\": \"e7016b39-6a7a-4601-b921-6f840bd8b734\", \"percentage\": 40 },\r\n        { \"userId\": \"f51c856c-a872-4ac7-ad47-067b129b9213\", \"percentage\": 10 }\r\n      ],\r\n  \"receiptItems\": [\r\n    {\r\n      \"name\": \"Milk\",\r\n      \"quantity\": 2,\r\n      \"unitPrice\": 3.50,\r\n      \"finalPrice\": 7.00,\r\n      \"splits\": [\r\n        { \"userId\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\", \"percentage\": 10 },\r\n        { \"userId\": \"e7016b39-6a7a-4601-b921-6f840bd8b734\", \"percentage\": 70 },\r\n        { \"userId\": \"f51c856c-a872-4ac7-ad47-067b129b9213\", \"percentage\": 20 }\r\n      ]\r\n    },\r\n    {\r\n      \"name\": \"Bread\",\r\n      \"quantity\": 1,\r\n      \"unitPrice\": 2.50,\r\n      \"finalPrice\": 2.50,\r\n      \"splits\": [\r\n        { \"userId\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\", \"percentage\": 40 },\r\n        { \"userId\": \"e7016b39-6a7a-4601-b921-6f840bd8b734\", \"percentage\": 40 },\r\n        { \"userId\": \"f51c856c-a872-4ac7-ad47-067b129b9213\", \"percentage\": 20 }\r\n      ]\r\n    },\r\n    {\r\n      \"name\": \"Eggs\",\r\n      \"quantity\": 1,\r\n      \"unitPrice\": 4.99,\r\n      \"finalPrice\": 4.99,\r\n      \"splits\": [\r\n        { \"userId\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\", \"percentage\": 30 },\r\n        { \"userId\": \"e7016b39-6a7a-4601-b921-6f840bd8b734\", \"percentage\": 40 },\r\n        { \"userId\": \"f51c856c-a872-4ac7-ad47-067b129b9213\", \"percentage\": 30 }\r\n      ]\r\n    },\r\n    {\r\n      \"name\": \"Butter\",\r\n      \"quantity\": 2,\r\n      \"unitPrice\": 5.50,\r\n      \"finalPrice\": 11.00,\r\n      \"splits\": [\r\n        { \"userId\": \"4050987b-4d1f-4ba2-9cb9-cfe3ab0f58ac\", \"percentage\": 30 },\r\n        { \"userId\": \"e7016b39-6a7a-4601-b921-6f840bd8b734\", \"percentage\": 40 },\r\n        { \"userId\": \"f51c856c-a872-4ac7-ad47-067b129b9213\", \"percentage\": 30 }\r\n      ]\r\n    }\r\n  ]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -368,7 +368,7 @@
 							"variable": [
 								{
 									"key": "receiptId",
-									"value": "52b8b569-9ee3-4cf7-b1d5-9891f1750f13"
+									"value": "2cea38dd-8e51-44b2-82d4-3ba6e8705b34"
 								}
 							]
 						}
@@ -399,7 +399,7 @@
 							"variable": [
 								{
 									"key": "receiptId",
-									"value": "52b8b569-9ee3-4cf7-b1d5-9891f1750f13"
+									"value": "4e2fa2a9-4b56-42ee-98fa-e259060b5322"
 								}
 							]
 						}
