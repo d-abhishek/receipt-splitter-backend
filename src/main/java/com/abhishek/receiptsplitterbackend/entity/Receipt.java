@@ -48,6 +48,11 @@ public class Receipt {
     @Column(nullable = false)
     private LocalDate receiptDate;
 
+    private String splitType;
+
+    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReceiptSplit> splits;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

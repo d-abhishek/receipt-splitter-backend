@@ -18,6 +18,8 @@ public class ReceiptRequest {
     private UUID groupId;
     private LocalDate receiptDate;
     private List<ReceiptItemRequest> receiptItems;
+    private String splitType;
+    private List<Split> splits;
 
     @Data
     public static class ReceiptItemRequest {
@@ -26,5 +28,12 @@ public class ReceiptRequest {
         private BigDecimal quantity;
         private BigDecimal unitPrice;
         private BigDecimal finalPrice;
+        private List<Split> splits;
+    }
+
+    @Data
+    public static class Split {
+        private UUID userId;
+        private BigDecimal percentage;
     }
 }
