@@ -16,7 +16,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @Entity
-@Table(name = "receipt_item_splits")
+@Table(name = "receipt_item_splits") // TODO: Consider renaming to "receipt_item_level_splits" for clarity
 public class ReceiptItemSplit {
 
     @Id
@@ -30,7 +30,7 @@ public class ReceiptItemSplit {
     private User user;
 
     @Column(nullable = false)
-    private BigDecimal amountOwed;
+    private BigDecimal amountOwed; // TODO: Consider renaming to "share' for clarity
 
     private Boolean paid = false;
 }
