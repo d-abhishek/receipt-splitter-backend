@@ -2,7 +2,7 @@ package com.abhishek.receiptsplitterbackend.controller;
 
 import com.abhishek.receiptsplitterbackend.Dto.ReceiptRequest;
 import com.abhishek.receiptsplitterbackend.entity.Receipt;
-import com.abhishek.receiptsplitterbackend.service.ReceiptService;
+import com.abhishek.receiptsplitterbackend.service.receipt.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.abhishek.receiptsplitterbackend.service;
+package com.abhishek.receiptsplitterbackend.service.receipt;
 
 import com.abhishek.receiptsplitterbackend.Dto.ReceiptRequest;
 import com.abhishek.receiptsplitterbackend.entity.*;
