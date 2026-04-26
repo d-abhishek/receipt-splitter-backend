@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: receipt-splitter
-          image: receiptsplitter.azurecr.io/receipt-splitter:latest
+          image: receiptSplitterACR.azurecr.io/receipt-splitter:latest
           ports:
             - containerPort: 8080
           env:
