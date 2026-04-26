@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: receipt-splitter-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: receipt-splitter
   ports:
