@@ -10,7 +10,28 @@ services:
       POSTGRES_USER: rs_user
       POSTGRES_PASSWORD: rs_pass
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rs_user -d receipt_splitter"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: receipt-splitter-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/receipt_splitter
+      SPRING_DATASOURCE_USERNAME: rs_user
+      SPRING_DATASOURCE_PASSWORD: rs_pass
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   pgadmin:
     image: dpage/pgadmin4
