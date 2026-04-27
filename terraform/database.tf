@@ -3,8 +3,8 @@ resource "azurerm_postgresql_flexible_server" "db" {
   resource_group_name    = azurerm_resource_group.rg.name
   location               = azurerm_resource_group.rg.location
   version                = "18"
-  administrator_login    = "rs_user"
-  administrator_password = "RSPass1234"
+  administrator_login    = var.db_admin_username
+  administrator_password = var.db_admin_password
   sku_name               = "B_Standard_B1ms"
 
   storage_mb = 32768
